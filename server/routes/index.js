@@ -26,8 +26,31 @@ router.post('/location', async (req, res) => {
 router.get('/location/:userid', async (req, res) => {
   try {
     const { userid } = req.params
+    const { limit } = req.query
 
-    const doc = await UserLocation.findOne({ userId: userid }, {}, { sort: { 'createdAt' : -1 } })
+    const doc = await UserLocation.find(
+      { userId: userid }, 
+      {}, 
+      { sort: { 'createdAt' : -1 }, limit: parseInt(limit) }
+    )
+
+    if (doc) {
+      res.send(doc)
+    }
+
+    return res.status(404).send('User location not found')
+  } catch (error) {
+    console.error('Error finding location: ', error)
+  }
+})
+
+router.get('/location/:userid/latest', async (req, res) => {
+  try {
+    const { userid } = req.params
+
+    const doc = await UserLocation.findOne(
+      { userId: userid }, {}, { sort: { 'createdAt' : -1 } }
+    )
 
     if (doc) {
       res.send(doc)
