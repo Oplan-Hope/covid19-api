@@ -11,28 +11,32 @@ router.get('/', function (req, res) {
   })
 })
 
-router.post('/location', function (req, res) {
-  const body = _.pick(req.body, ['userId', 'name', 'latitude', 'longitude'])
-  const userLocation = new UserLocation(body)
-  userLocation.save().then((doc) => {
-    res.send(doc)
-  }, (err)=> {
-    res.send(err)
-  })
+router.post('/location', async (req, res) => {
+  try {
+    const body = _.pick(req.body, ['userId', 'name', 'latitude', 'longitude'])
+    const userLocation = new UserLocation(body)
+
+    const doc = await userLocation.save()
+    res.status(201).send(doc)
+  } catch (error) {
+    console.error('Error saving user location: ', error)
+  }
 })
 
-router.get('/location/:userid', function (req, res) {
-  var { userid } = req.params
+router.get('/location/:userid', async (req, res) => {
+  try {
+    const { userid } = req.params
 
-  UserLocation.find({userId:userid}).then((UserLocation) => {
-    res.send({
-      UserLocation
-    })
-  }, (e) => {
-    res.send(e)
-  })
+    const doc = await UserLocation.findOne({ userId: userid }, {}, { sort: { 'createdAt' : -1 } })
+
+    if (doc) {
+      res.send(doc)
+    }
+
+    return res.status(404).send('User location not found')
+  } catch (error) {
+    console.error('Error finding location: ', error)
+  }
 })
-
-
 
 module.exports = router
