@@ -2,7 +2,7 @@
   "name": "hope-covid-api",
   "description": "Hope covid api integration",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "mocha tests/*.test.js",
