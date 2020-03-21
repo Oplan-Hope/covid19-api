@@ -5,7 +5,7 @@ const apiKeyHope = process.env.API_HOPE_KEY
 
 const requestAuthentication = (req, res, next) => {
   var token = req.header('x-hope-key')
-  
+
   if(token === apiKeyHope)
     next()
   else 
