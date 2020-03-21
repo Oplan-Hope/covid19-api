@@ -1,8 +1,7 @@
-// Filename: api-routes.js
 // Initialize express router
 const _ = require('lodash')
 let router = require('express').Router()
-const { UserLocation } = require('./server/models/userLocation')
+const { UserLocation } = require('../models/userLocation')
 
 // Set default API response
 router.get('/', function (req, res) {
@@ -13,8 +12,7 @@ router.get('/', function (req, res) {
 })
 
 router.post('/location', function (req, res) {
-
-  const body = _.pick(req.body, ['userId','latitude', 'longitude'])
+  const body = _.pick(req.body, ['userId', 'name', 'latitude', 'longitude'])
   const userLocation = new UserLocation(body)
   userLocation.save().then((doc) => {
     res.send(doc)
@@ -24,7 +22,6 @@ router.post('/location', function (req, res) {
 })
 
 router.get('/location/:userid', function (req, res) {
-
   var { userid } = req.params
 
   UserLocation.find({userId:userid}).then((UserLocation) => {

@@ -9,12 +9,9 @@ COVID19 Api integration
 npm install
 
 # Copy environment file:
-cp .env.example .env
+cp .env.sample .env
 
 # Finally, start the development server:
 npm run 
 ```
 
-## Resources
-
-- https://rapidapi.com/astsiatsko/api/coronavirus-monitor?endpoint=apiendpoint_745c45af-47e5-4b99-b962-9f77e164c054

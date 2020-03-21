@@ -8,7 +8,7 @@ const bodyParser = require('body-parser')
 
 
 //setup routes for api
-const apiRoutes = require('./api-routes')
+const apiRoutes = require('./server/routes')
 
 //user body parser
 app.use(bodyParser.json())
@@ -24,7 +24,7 @@ app.use('/api', apiRoutes)
 
 
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Hope is listening on port ${port}!`))
 
 
 module.exports = { app }
