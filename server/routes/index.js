@@ -2,6 +2,7 @@
 const _ = require('lodash')
 let router = require('express').Router()
 const { UserLocation } = require('../models/userLocation')
+const { requestAuthentication } = require('../middleware/requestAuthentication')
 
 // Set default API response
 router.get('/', function (req, res) {
@@ -11,7 +12,7 @@ router.get('/', function (req, res) {
   })
 })
 
-router.post('/location', async (req, res) => {
+router.post('/location', requestAuthentication, async (req, res) => {
   try {
     const body = _.pick(req.body, ['userId', 'name', 'latitude', 'longitude'])
     const userLocation = new UserLocation(body)
@@ -32,24 +33,6 @@ router.get('/location/:userid', async (req, res) => {
       { userId: userid }, 
       {}, 
       { sort: { 'createdAt' : -1 }, limit: parseInt(limit) }
-    )
-
-    if (doc) {
-      res.send(doc)
-    }
-
-    return res.status(404).send('User location not found')
-  } catch (error) {
-    console.error('Error finding location: ', error)
-  }
-})
-
-router.get('/location/:userid/latest', async (req, res) => {
-  try {
-    const { userid } = req.params
-
-    const doc = await UserLocation.findOne(
-      { userId: userid }, {}, { sort: { 'createdAt' : -1 } }
     )
 
     if (doc) {
