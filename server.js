@@ -10,6 +10,7 @@ const bodyParser = require('body-parser')
 //setup routes for api
 const index = require('server/routes/index')
 const locations = require('server/routes/locations')
+const users = require('server/routes/users')
 
 //user body parser
 app.use(bodyParser.json())
@@ -20,7 +21,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.get('/', (_, res) => res.send('COVID19 API Integration'))
 app.use('/api', index)
 app.use('/api/location', locations)
+app.use('/api/users', users)
 
+// Here we go...
 app.listen(port, () => console.log(`Hope is listening on port ${port}!`))
 
 module.exports = { app }
