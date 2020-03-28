@@ -6,12 +6,12 @@ COVID19 Api integration
 
 ```bash
 # First, install project dependencies:
-npm install
+yarn install
 
 # Copy environment file:
 cp .env.sample .env
 
 # Finally, start the development server:
-npm run 
+yarn dev-watch
 ```
 
