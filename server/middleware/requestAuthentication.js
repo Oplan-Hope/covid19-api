@@ -10,4 +10,4 @@ const requestAuthentication = (req, res, next) => {
     })
 }
 
-module.exports.requestAuthentication = requestAuthentication
+module.exports = requestAuthentication

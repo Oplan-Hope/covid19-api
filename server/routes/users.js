@@ -2,10 +2,10 @@ const router = require('express').Router()
 const STATUS_CODES = require('http-status-codes')
 const pick = require('lodash/pick')
 const User = require('server/models/user')
-const validateMiddleware = require('server/middleware/validate')
-const usersValidation = require('server/validations/users.validation')
+const validate = require('server/middleware/validate')
+const userValidation = require('server/validations/users.validation')
 
-router.post('/', validateMiddleware(usersValidation.store), async (req, res) => {
+router.post('/', validate(userValidation.store), async (req, res) => {
   try {
     let attributes = pick(req.body, ['userId', 'name'])
     if (req.body.recieveNotificationsAt) {

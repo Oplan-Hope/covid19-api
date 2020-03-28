@@ -7,21 +7,22 @@ const app = express()
 const port = process.env.PORT || 3000
 const bodyParser = require('body-parser')
 
-//setup routes for api
 const index = require('server/routes/index')
 const locations = require('server/routes/locations')
 const users = require('server/routes/users')
 
-//user body parser
+const authenticate = require('server/middleware/requestAuthentication')
+
+// Use body parser
 app.use(bodyParser.json())
 
 // Configure bodyparser to handle post requests
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', (_, res) => res.send('COVID19 API Integration'))
-app.use('/api', index)
-app.use('/api/location', locations)
-app.use('/api/users', users)
+app.use('/api', authenticate, index)
+app.use('/api/location', authenticate, locations)
+app.use('/api/users', authenticate, users)
 
 // Here we go...
 app.listen(port, () => console.log(`Hope is listening on port ${port}!`))
