@@ -59,4 +59,25 @@ router.get('/:userid', async (req, res) => {
   }
 })
 
+router.patch('/:userid', validate(userValidation.update), async (req, res) => {
+  try {
+    let attributes = pick(req.body, ['name', 'recieveNotificationsAt'])
+
+    if (req.body.recieveNotificationsAt) {
+      attributes.recieveNotificationsAt = Date.now()
+    }
+
+    const user = await User.findOneAndUpdate({ userId: req.params.userid }, attributes)
+
+    if (!user) {
+      return res.status(STATUS_CODES.NOT_FOUND).send()
+    }
+
+    const updatedUser = await User.findOne({ userId: req.params.userid })
+    return res.send(updatedUser)
+  } catch (error) {
+    console.error('Error updating User: ', error)
+  }
+})
+
 module.exports = router

@@ -12,6 +12,9 @@ const store = [
     .isBoolean()
 ]
 
+const update = []
+
 module.exports = {
-  store
+  store,
+  update
 }
