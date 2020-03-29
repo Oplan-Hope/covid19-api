@@ -5,6 +5,22 @@ const User = require('server/models/user')
 const validate = require('server/middleware/validate')
 const userValidation = require('server/validations/users.validation')
 
+router.get('/', async (req, res) => {
+  try {
+    const { subscribed = null } = req.query
+
+    if (subscribed !== null) {
+      const users = await User.find({ recieveNotificationsAt: { $ne: null } })
+      return res.send(users)
+    }
+
+    const users = await User.find()
+    return res.send(users)
+  } catch (error) {
+    console.error('Error fetching users: ', error)
+  }
+})
+
 router.post('/', validate(userValidation.store), async (req, res) => {
   try {
     let attributes = pick(req.body, ['userId', 'name'])
